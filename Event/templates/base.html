@@ -1,0 +1,276 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Homepage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {% block extra_head %}
+    {% endblock %}
+    <style>
+        body, html {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .nav {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+        }
+
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .logo img {
+            height: 150px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            margin-right: 2rem;
+            text-decoration: none;
+            color: #6a0dad;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 10px 15px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #6a0dad;
+            color: #fff;
+        }
+
+        .nav-links a.active {
+            background-color: #6a0dad;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-actions .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-actions .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .nav-actions .dropdown-content a {
+            color: #6a0dad;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+        }
+
+        .nav-actions .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .nav-actions a {
+            margin-right: 2rem;
+            text-decoration: none;
+            color: #6a0dad;
+            font-weight: 500;
+            padding: 10px 15px;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .nav-actions a:hover {
+            background-color: #6a0dad;
+            color: #fff;
+        }
+
+        .nav-actions a:last-child {
+            margin-right: 0;
+        }
+
+
+        footer {
+            background-color: #4B0082;
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 3px solid #ffffff;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+            margin-top: auto;
+        }
+
+        .footer-navigation, .footer-contact, .footer-social {
+            margin: 10px;
+        }
+
+
+        .footer-navigation h3, .footer-contact h3, .footer-social h3 {
+            color: #f0f0f0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-navigation ul, .footer-social .social-icons {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-navigation ul li, .social-icon {
+            margin-bottom: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .footer-navigation ul li a, .social-icon {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .social-icon {
+            display: inline-block;
+            padding: 10px;
+            background-color: #6A0DAD;
+            margin-right: 5px;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-navigation ul li a:hover {
+            transform: translateY(-3px);
+            background-color: #9932CC;
+            color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+            background-color: #D8BFD8;
+            color: #4B0082;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-content">
+                    <div class="logo">
+                        <img src="{% static 'image/IMEVENT.svg' %}" alt="Logo">
+                    </div>
+                    <div class="nav-links">
+                        <a href="{% url 'index' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+                        <a href="{% url 'event' %}" class="{% if request.path == '/event/' %}active{% endif %}">Event</a>
+                        {% if request.user.user_type == 'Mpp' or request.user.user_type == 'Admin' %}
+                            <a href="{% url 'createEvent' %}" class="{% if request.path == '/createEvent/' %}active{% endif %}">Add Event</a>
+                            <a href="{% url 'myevent' %}" class="{% if request.path == '/myevent/' %}active{% endif %}">My Event</a>
+                        {% endif %}
+                        <a href="{% url 'yourbooking' %}" class="{% if request.path == '/yourbooking/' %}active{% endif %}">Your Booking</a>
+                    </div>
+                    <div class="nav-actions">
+                        {% if request.user.is_authenticated %}
+                            <div class="dropdown">
+                                <a href="javascript:void(0)">{{ request.user.username }}</a>
+                                <div class="dropdown-content">
+                                    <a href="{% url 'edit_profile' request.user.id %}">Edit Profile</a>
+                                    <a href="{% url 'logout' %}">Logout</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}">Log In</a>
+                            <a href="{% url 'register' %}">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    <footer>
+        <div class="footer-navigation">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'event' %}">Event</a></li>
+                <li><a href="{% url 'yourbooking' %}">Your Booking</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>Email: admin@gmail.com</p>
+            <p>Phone: 99999</p>
+        </div>
+        <div class="footer-social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" class="social-icon">FB</a>
+                <a href="https://twitter.com" target="_blank" class="social-icon">TW</a>
+                <a href="https://instagram.com" target="_blank" class="social-icon">IG</a>
+            </div>
+        </div>
+
+        <div style="width: 100%; text-align: center; padding-top: 20px; color: #fff;">
+            <p>&copy; 2024 IMeventPortal. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    {% block js %}
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/event.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="search">
+    <div class="search-container">
+        <h1>Search Event</h1>
+        <input type="text" id="search-input" onkeyup="searchEvents()" placeholder="search by title or course">
+    </div>
+</div>
+<div class="events-container" id="replaceable-content">
+    {% for event in events %}
+        <a href="{% url 'eventDetails' event.event_id %}" class="event-card">
+                {% if event.image %}
+                    <img src="{{ event.image.url }}" alt="{{ event.title }}">
+                {% else %}
+                    <p>No image available.</p>
+                {% endif %}
+                <div class="event-info">
+                    <h2>{{ event.title }}</h2>
+                    <p><i class="fa-solid fa-location-dot" style="color: red;"></i> {{ event.location }}</p>
+                    <p><i class="fa-regular fa-calendar" style="color: black;"></i> {{ event.start_date|date:"d/m/Y" }} - {{ event.end_date|date:"d/m/Y" }}</p>
+                    {% if event.booked_count == event.max_tickets %}
+                        <p class="ticket-status full"><i class="fa-solid fa-person"></i> {{ event.booked_count }}/{{ event.max_tickets }}</p>
+                    {% else %}
+                        <p class="ticket-status available"><i class="fa-solid fa-person"></i> {{ event.booked_count }}/{{ event.max_tickets }}</p>
+                    {% endif %}
+                    <div class="tags">
+                        {% for tag in event.tags.all %}
+                            <span class="tag {{ tag.name|lower }}">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </a>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static "js/search.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            margin: 50px 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .signup-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        .signup-container img {
+            margin: 0;
+        }
+        h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #333;
+        }
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+        .messages li {
+            margin-bottom: 10px;
+            color: red;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 12px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #6a0dad;
+        }
+        .errorlist {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 10px;
+            color: red;
+        }
+        .errorlist li {
+            margin-bottom: 5px;
+        }
+         .already-registered {
+            margin-top: 15px;
+        }
+        .alrady-registered a {
+            color: #6a0dad;
+            text-decoration: none;
+        }
+        .already-registered a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-container">
+    <!-- Company Logo -->
+    <img src="{% static 'image/IMEVENT.svg' %}" alt="Company Logo" width="150">
+
+    <h2>Sign Up</h2>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        {% for field in form %}
+        {% if "Password-based authentication" not in field.label_tag %}
+        <div class="form-group">
+            {% if field.errors %}
+            <ul class="errorlist">
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        <div class="already-registered">
+            <p>Already Registered? <a href="{% url 'login' %}">Login Here</a></p>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>
